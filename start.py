@@ -9,13 +9,17 @@ from service import AService, ServicesController
 class StartService(AService):
 
     @classmethod
-    def init(self, bot: Bot, dispatcher: Dispatcher, controller: ServicesController):
+    def init(cls, bot: Bot, dispatcher: Dispatcher, controller: ServicesController):
         @dispatcher.message(Command("start"))
         async def cmd_start(message: Message):
             builder = InlineKeyboardBuilder()
             builder.add(InlineKeyboardButton(
                 text="О боте",
                 callback_data="start_about")
+            )
+            builder.add(InlineKeyboardButton(
+                text="Справка",
+                callback_data="help")
             )
 
             await message.answer("""
@@ -30,7 +34,7 @@ class StartService(AService):
             await message.answer("""
 Target bot
 
-Создан @stopmind c ♥
+Создан @StopMeend c ♥
 Основан на python, aiogram и pydantic.
 Github: https://github.com/stopmind/TargetBot
         """)

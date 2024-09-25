@@ -4,6 +4,7 @@ import os
 
 from aiogram import Bot, Dispatcher
 
+from help import HelpService
 from service import ServicesController
 from start import StartService
 
@@ -13,6 +14,7 @@ dp = Dispatcher()
 controller = ServicesController(bot=bot, dispatcher=dp)
 
 controller.add_service("start", StartService())
+controller.add_service("help", HelpService())
 
 async def main():
     await dp.start_polling(bot)
