@@ -2,21 +2,10 @@ import asyncio
 import logging
 import os
 
-from aiogram import Bot, Dispatcher, types
-from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram import Bot, Dispatcher
 
-from service import AService, ServicesController
-
-
-class StartService(AService):
-
-    @classmethod
-    def init(self, bot: Bot, dispatcher: Dispatcher, controller: ServicesController):
-        @dispatcher.message(Command("start"))
-        async def cmd_start(message: Message):
-            await message.reply("Привет!")
-
+from service import ServicesController
+from start import StartService
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=os.environ["TOKEN"])
