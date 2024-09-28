@@ -1,5 +1,6 @@
+from typing import ClassVar
+
 from aiogram import Bot, Dispatcher
-from aiogram.enums import ParseMode
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -17,19 +18,18 @@ class HelpInfo(BaseModel):
 class HelpService(AService):
     __help_info: HelpInfo
 
-    @classmethod
-    def init(cls, bot: Bot, dispatcher: Dispatcher, controller: ServicesController):
+    def init(self, bot: Bot, dispatcher: Dispatcher, controller: ServicesController):
         with open("data/help.json", encoding="utf8") as file:
-            cls.__help_info = HelpInfo.model_validate_json(file.read())
+            self.__help_info = HelpInfo.model_validate_json(file.read())
 
         @dispatcher.message(Command("help"))
         async def cmd_help(message: Message):
             builder = InlineKeyboardBuilder()
             builder.max_width = 3
-            text = "📜В боте если следющие категории:"
+            text = "📜В боте если следующие категории:"
 
-            for i in range(len(cls.__help_info.categories)):
-                name = cls.__help_info.categories[i].name
+            for i in range(len(self.__help_info.categories)):
+                name = self.__help_info.categories[i].name
                 text = f"{text}\n{name}"
                 builder.add(InlineKeyboardButton(
                     text=name,
@@ -46,7 +46,7 @@ class HelpService(AService):
         @dispatcher.callback_query(lambda a: a.data.startswith("help_category_"))
         async def callback_help_category(callback: CallbackQuery):
             category_num = int(callback.data.replace("help_category_", ""))
-            category = cls.__help_info.categories[category_num];
+            category = self.__help_info.categories[category_num]
 
             await callback.message.answer(f"{category.name}\n\n{category.text}")
             await callback.answer()

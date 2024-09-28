@@ -9,7 +9,7 @@ from service import AService, ServicesController
 class StartService(AService):
 
     @classmethod
-    def init(cls, bot: Bot, dispatcher: Dispatcher, controller: ServicesController):
+    def init(self, bot: Bot, dispatcher: Dispatcher, controller: ServicesController):
         @dispatcher.message(Command("start"))
         async def cmd_start(message: Message):
             builder = InlineKeyboardBuilder()

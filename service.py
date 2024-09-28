@@ -7,9 +7,8 @@ class ServicesController:
     pass
 
 class AService(BaseModel, ABC):
-    @classmethod
     @abstractmethod
-    def init(cls, bot: Bot, dispatcher: Dispatcher, controller: ServicesController):
+    def init(self, bot: Bot, dispatcher: Dispatcher, controller: ServicesController):
         pass
 
 
